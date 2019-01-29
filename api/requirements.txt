@@ -1,0 +1,8 @@
+connexion == 1.1.15
+python_dateutil == 2.6.0
+setuptools == 21.0.0
+ipfsapi == 0.4.3
+web3 == 4.6.0
+redis == 2.10.6
+py-solc == 3.1.0
+python-telegram-bot

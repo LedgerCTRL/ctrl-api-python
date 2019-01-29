@@ -1,0 +1,93 @@
+version: '3'
+services:
+  api:
+    build: ./api
+    ports:
+      - "8088:8088"
+    depends_on:
+      - "geth"
+      - "ipfs"
+      - "couch"
+      - "redis"
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.2
+
+  geth:
+    image: ethereum/client-go:v1.8.15
+    command: --rpc --rpcaddr 0.0.0.0 --ws --wsaddr 0.0.0.0 --dev --datadir "/root/.ethereum" --rpcapi eth,web3,net,web3,personal
+    volumes:
+      - /Users/Shared/gethdata:/root/.ethereum
+    ports:
+      - "30303:30303"
+      - "8545:8545"
+      - "8546:8546"
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.3
+
+  couch:
+    image: couchdb:2.2.0
+    volumes:
+      - /Users/Shared/couchdb/data:/opt/couchdb/data
+    ports:
+      - "5984:5984"
+    environment: # set these in a file called .env
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASS}
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.4
+  
+  ipfs:
+    image: ipfs/go-ipfs:v0.4.17
+    volumes:
+      - /tmp/ipfs-docker-staging:/export
+      - /tmp/ipfs-docker-data:/data/ipfs
+    ports:
+      - "8080:8080"
+      - "4001:4001"
+      - "5001:5001"
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.5
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /Users/Shared/redis:/data
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.6
+
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - "1080:80"
+      - "25:25"
+    networks:
+      vaasnet:
+        ipv4_address: 172.16.66.7
+
+  #node:
+  #  build: node
+  #  working_dir: /home/node/app
+  #  ports:
+  #    - "8888:8888"
+  #  volumes:
+  #    - ./node/test:/home/node/app
+  #  networks:
+  #    vaasnet:
+  #      ipv4_address: 172.16.66.8
+  #  command: "npm start"
+
+networks:
+  vaasnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - 
+          subnet: 172.16.66.0/24

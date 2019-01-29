@@ -1,0 +1,459 @@
+---
+swagger: "2.0"
+info:
+  description: "Interact with the ETH blockchain using pre-defined smart contracts. Props to swagger.io for doing half my job."
+  version: "1.0.0"
+  title: "LedgerCTRL API"
+  contact:
+    email: "brock@vaastechnologies.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/v2"
+tags:
+- name: "admins"
+  description: "Secured Admin-only calls"
+- name: "developers"
+  description: "Operations available to regular developers"
+schemes:
+- "https"
+- "http"
+
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: key
+  AppIdHeader:
+    type: apiKey
+    in: header
+    name: appId
+
+# global security
+security:
+- APIKeyHeader: []
+  AppIdHeader: []
+
+paths:
+  /apiUser:
+    post:
+      tags:
+      - "admins"
+      summary: "creates new api key"
+      operationId: "new_api_key"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "email"
+        description: "API user's email address"
+        required: true
+        schema:
+          type: "object"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /scan:
+    post:
+      tags:
+      - "developers"
+      summary: "logs item scan on-chain"
+      operationId: "scan_item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "data"
+        description: "data about the scan"
+        schema:
+          $ref: '#/definitions/Scan'
+      responses:
+        200:
+          description: "Scan logged"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /scans/{itemhash}:  
+    get:
+      tags:
+      - "developers"
+      summary: "fetches item tag scans"
+      description: "fetches scans by item hash"
+      operationId: "get_scans"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "itemhash"
+        in: "path"
+        description: "unique item ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /inventory:
+    post:
+      tags:
+      - "developers"
+      summary: "adds an inventory item"
+      description: "Adds an item to the system"
+      operationId: "add_inventory"
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "upfile"
+        in: "formData"
+        description: "The file to upload"
+        required: false
+        type: "file"
+      - name: "inventoryItem"
+        in: "formData"
+        description: "JSON-encoded item detail"
+        required: true
+        type: "string"
+      - name: "userIndex"
+        in: "formData"
+        description: "User's ETH index"
+        required: true
+        type: "integer"
+      - name: "public"
+        in: "formData"
+        description: "boolean flag to make item public"
+        required: false
+        type: "boolean"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /inventory/{id}:
+    get:
+      tags:
+      - "developers"
+      summary: "fetches individual item by id"
+      description: "fetches individual item by id"
+      operationId: "get_item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "unique item ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/InventoryItem"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /file/{id}:
+    get:
+      tags:
+      - "developers"
+      summary: "fetches file associated with item ID"
+      description: "fetches file associated with item ID"
+      operationId: "get_file"
+      consumes:
+      - "application/json"
+      produces:
+      - "multipart/form-data"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "unique item ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /items/{userIndex}:
+    get:
+      tags:
+      - "developers"
+      summary: "fetches all items associated with user ID"
+      description: "fetches all items associated with user ID"
+      operationId: "get_items"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userIndex"
+        in: "path"
+        description: "unique user ID"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /transfer:
+    post:
+      tags:
+      - "developers"
+      summary: "transfers item to new owner"
+      operationId: "transfer_item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        description: "data required to transfer item"
+        schema:
+          type: "object"
+          required:
+          - userIndex
+          - userPass
+          - itemhash
+          - newOwnerIndex
+          - newOwner
+          properties:
+            userIndex:
+              type: "integer"
+            userPass:
+              type: "string"
+            itemhash:
+              type: "string"
+            newOwnerIndex:
+              type: "integer"
+            newOwner:
+              type: "string"
+      responses:
+        200:
+          description: "Transferred item"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /itembase:
+    post:
+      tags:
+      - "admins"
+      summary: "creates new itembase contract"
+      description: "creates new itembase contract using userId in POST data"
+      operationId: "new_itembase"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "userId"
+        description: "user responsible for creating itembase"
+        schema:
+          type: "object"
+          required:
+          - userId
+          properties:
+            userId:
+              type: "string"
+      responses:
+        200:
+          description: "Created"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+    get:
+      tags:
+      - "admins"
+      summary: "fetches itembase address"
+      operationId: "get_itembase"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Retrieved itembase address"
+        400:
+          description: "Invalid input"
+          schema:
+            type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /transfers/{itemhash}:
+    get:
+      tags:
+      - "developers"
+      summary: "get transfer history of given item"
+      operationId: "get_transfers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "itemhash"
+        in: "path"
+        description: "unique item ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Retrieved transfer history"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /ethUser/{userIndex}:
+    get:
+      tags:
+      - "developers"
+      summary: "fetch single ETH account by index"
+      operationId: "eth_user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userIndex"
+        in: "path"
+        description: "unique user ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Retrieved account"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /ethUser:
+    post:
+      tags:
+      - "developers"
+      summary: "create new ETH account"
+      operationId: "new_eth_user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "password"
+        schema:
+          type: "object"
+          required:
+          - password
+          properties:
+            password:
+              type: "string"
+      responses:
+        200:
+          description: "Created ETH account"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+    get:
+      tags:
+      - "admins"
+      summary: "get list of ETH accounts"
+      operationId: "eth_users"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Retrieved accounts"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /erc20:
+    post:
+      tags:
+      - "developers"
+      summary: "creates new erc20 contract"
+      description: "creates new erc20 contract using userId in POST data"
+      operationId: "new_erc20"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "data"
+        description: "userId and name of token in JSON"
+        schema:
+          type: "object"
+          required:
+          - userId
+          - tokenName
+          properties:
+            userId:
+              type: "string"
+            tokenName:
+              type: "string"
+            options:
+              type: "object"
+            events:
+              type: "object"
+      responses:
+        200:
+          description: "Created"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /smartContract:
+    post:
+      tags:
+      - "developers"
+      summary: "deploy custom smart contract"
+      description: "deploy custom smart contract using source code in POST data"
+      operationId: "new_contract"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "data"
+        description: "smart contract code in JSON object"
+        schema:
+          type: "object"
+          required:
+          - source
+          properties:
+            source:
+              type: "string"
+      responses:
+        200:
+          description: "Created"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+definitions:
+  InventoryItem:
+    type: "object"
+    required:
+    - "name"
+    - "sn"
+    - "userid"
+    properties:
+      userid:
+        type: "string"
+        example: "0xcb39f9322b21150833303453ec20aabef0817f90"
+      sn:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      name:
+        type: "string"
+        example: "Widget Adapter"
+    example:
+      name: "Widget Adapter"
+      sn: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      userid: "0xcb39f9322b21150833303453ec20aabef0817f90"
+  Scan:
+    type: "object"
+    required:
+    - "itemId"
+    - "scanData"
+    properties:
+      itemId:
+        type: "string"
+      scanData:
+        type: "string"
+

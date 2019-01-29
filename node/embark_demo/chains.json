@@ -1,0 +1,50 @@
+{
+  "0x36c77cce518be9b673c88fa1122566ac56241907e8b8a730afd2cdec17bb4a19": {
+    "contracts": {
+      "0xb84d125645e94e6329e6494db63830d1c68a719c328036dce55337f79a512e27": {
+        "name": "SimpleStorage",
+        "address": "0xe86629b2F91b7536e0650Fe66a5f52C746962663"
+      },
+      "0x3043b04ad856d169c8f0b0509c0bc63192dc7edd92d6933c58708298a0e381be": {
+        "name": "ENSRegistry",
+        "address": "0x1212351d1b2E34fF513A31B31555Aa68fB7F8c58"
+      },
+      "0x86190145cd94f27460f1aaa651075c13d32d03cd17732537d050a1e414b67bf0": {
+        "name": "Resolver",
+        "address": "0x2b35B7De5470dCe7721209b34acC16E4B5E089F7"
+      },
+      "0xecec9327231ff0922aba33ca43008d32c1637c0d967c3ade52268c869c2fb900": {
+        "name": "FIFSRegistrar",
+        "address": "0x99Fae5402c43Fce20B42c4FE9db2C1E657D431EF"
+      },
+      "0xbeee34fbe84b190ba24aa4b761f38098aa07f3525b7fb1fb7d78d47f1e692833": {
+        "name": "SafeMath",
+        "address": "0x885Ee4fdC0A5FC0f87d04294363571ffed4f9f30"
+      },
+      "0x23e20e1a9b8107a83d0107c9e6f12498a755a42a8f48eba4c094b3c3f871875e": {
+        "name": "ERC721",
+        "address": "0xF8Ef3E883F329d7889733B4B0d0320798baeb222"
+      },
+      "0xb607044e76223c289fb10ff3281f3a93529d0c482f803d846045f61f18fca90e": {
+        "name": "ERC721Enumerable",
+        "address": "0xde8631a96F1abcFBA4ABA188F88F0c71493a1c85"
+      },
+      "0x3bdd546194b5b26c7a7bcccb3510da8fdfb7e62832e8e11ea8d9426c925083b9": {
+        "name": "Roles",
+        "address": "0x436e1a19F3FC885d23e96756490f6EC4e795cF3F"
+      },
+      "0x87b65206d87b0acdf97f781a302fed3adca5410126e936e48633573874e21f27": {
+        "name": "ERC721Mintable",
+        "address": "0xa9C03cE5DD46B5ED32E666B8890e13af7A659e09"
+      },
+      "0x57c102c9dc89d0b4d4d00e552b2552ba5cbc64a4e6dc0fc70d137ee60349ab5a": {
+        "name": "Address",
+        "address": "0x7CCA797A7F75ec88A760F2264B47968feD01cEbb"
+      },
+      "0xbffbb25e877cf08bce8230fcea393e2a42be7fff55e90b6148452dc254c357f6": {
+        "name": "MyNFT",
+        "address": "0x5e406C114bb75318C109f86708B98F475fCe17aF"
+      }
+    }
+  }
+}
