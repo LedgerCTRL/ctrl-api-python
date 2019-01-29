@@ -1,7 +1,7 @@
 # CTRL API
 >*previously VaaS API*
 
-*Swagger-gen'd python3-flask HTTP REST API for blockchain itemization using IPFS & Ethereum.*
+*Swagger-gen'd python3-flask HTTP REST API for managing objects a la CRUD using IPFS & Ethereum.*
 
 ## Introduction
 CTRL API uses docker and docker-compose to build and run the entire backend.
@@ -22,7 +22,7 @@ CTRL needs virtually no configuration. Just send it.
 
 ### Run tha trap
 ```
-git clone https://github.com/brocksmedley/ctrl-api
+git clone https://github.com/ledgerctrl/ctrl-api
 cd ctrl-api
 docker-compose build
 docker-compose up
