@@ -44,3 +44,7 @@ couchDB | [`http://localhost:5984`](http://localhost:5984) | nice
 IPFS | [`http://localhost:8080`](http://localhost:8080/ipfs) | nice
 geth | [`http://localhost:8545`](http://localhost:8545) | nice
 CTRL_API | [`http://localhost:8088`](http://localhost:8088) | nice
+
+Copyright VaaS Technologies, Inc. 2019
+
+This source code may be used under the GPL License. See license.txt for details.
