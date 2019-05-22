@@ -28,6 +28,13 @@ docker-compose build
 docker-compose up
 ```
 
+### Configure dotenv file
+Set the following variables in a file called `.env` in the root directory of this repository.
+```
+COUCHDB_USER=admin
+COUCHDB_PASS=Password!
+```
+
 ### Configure DB
 1. Make an admin account at `localhost:5984/_utils/#/setup`. 
 
