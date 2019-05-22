@@ -21,10 +21,12 @@ CTRL needs virtually no configuration. Just send it.
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Run tha trap
-```git clone https://github.com/brocksmedley/ctrl-api
+```shell
+git clone https://github.com/brocksmedley/ctrl-api
 cd vaas2
 docker-compose build
-docker-compose up```
+docker-compose up
+```
 
 ### Configure dotenv file
 Set the following variables in a file called `.env` in the root directory of this repository.
