@@ -21,18 +21,16 @@ CTRL needs virtually no configuration. Just send it.
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Run tha trap
-```git clone https://github.com/brocksmedley/ctrl-api
+```shell
+git clone https://github.com/brocksmedley/ctrl-api
 cd vaas2
 docker-compose build
-docker-compose up```
+docker-compose up
+```
 
 ### Configure dotenv file
 Set the following variables in a file called `.env` in the root directory of this repository.
-```COUCHDB_USER=admin
-COUCHDB_PASS=Password!```
 
-### Configure dotenv file
-Set the following variables in a file called `.env` in the root directory of this repository.
 ```
 COUCHDB_USER=admin
 COUCHDB_PASS=Password!
@@ -48,12 +46,13 @@ COUCHDB_PASS=Password!
 ### Use it!
 Local Gateways
 
-name | gateway | .md requires 3 columns for tables
---- | --- | ---
-couchDB | [`http://localhost:5984`](http://localhost:5984) | nice
-IPFS | [`http://localhost:8080`](http://localhost:8080/ipfs) | nice
-geth | [`http://localhost:8545`](http://localhost:8545) | nice
-CTRL API | [`http://localhost:8088`](http://localhost:8088) | nice
+| name | gateway | .md requires 3 columns for tables |
+| --- | --- | ---| 
+| couchDB | [`http://localhost:5984`](http://localhost:5984) | nice |
+| IPFS | [`http://localhost:8080`](http://localhost:8080/ipfs) | nice |
+| geth | [`http://localhost:8545`](http://localhost:8545) | nice |
+| CTRL_API | [`http://localhost:8088`](http://localhost:8088) | nice |
+
 
 Copyright VaaS Technologies, Inc. 2019
 
