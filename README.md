@@ -28,11 +28,7 @@ docker-compose up```
 
 ### Configure dotenv file
 Set the following variables in a file called `.env` in the root directory of this repository.
-```COUCHDB_USER=admin
-COUCHDB_PASS=Password!```
 
-### Configure dotenv file
-Set the following variables in a file called `.env` in the root directory of this repository.
 ```
 COUCHDB_USER=admin
 COUCHDB_PASS=Password!
